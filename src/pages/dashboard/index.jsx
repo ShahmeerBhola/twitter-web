@@ -10,29 +10,47 @@ import { useEffect } from "react";
 const columns = [
   {
     title: "Pic",
-    dataIndex: "age",
-    key: "age",
+    dataIndex: "imageUrl",
+    key: "imageUrl",
+    render:(imageUrl)=><img src={imageUrl} alt="pic"/>
   },
   {
     title: "Username",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "username",
+    key: "username",
   },
   {
-    title: "Tweet COunt",
-    dataIndex: "age",
-    key: "age",
+    title: "Tweet Count",
+    dataIndex: "tweetsCount",
+    key: "tweetsCount",
   },
   {
     title: "Replied Count",
-    dataIndex: "address",
-    key: "address",
+    dataIndex: "replyCount",
+    key: "replyCount",
   },
 ];
 
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const [keyword, setKeyword] = useState("");
+  const [data,setData]=useState([])
+
+  useEffect(() => {
+    axios({
+      url: "http://localhost:4000/api/user/admin/all",
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${user?.token}`,
+      },
+    })
+      .then((res) => {
+        setData(res?.data?.user);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  }, []);
   useEffect(() => {
     axios({
       url: "http://localhost:4000/api/keyword",
@@ -44,26 +62,8 @@ const Dashboard = () => {
       setKeyword(res?.data.keyword);
     });
   }, []);
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-    },
-  ];
+
+
   const addKeyword = () => {
     if (keyword !== "") {
       axios({
@@ -108,7 +108,7 @@ const Dashboard = () => {
           () => (
             <Table dataSource={data} columns={columns} pagination={false} />
           ),
-          []
+          [data]
         )}
       </TableWrapper>
     </Wrapper>
