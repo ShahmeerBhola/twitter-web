@@ -1,18 +1,44 @@
 import React from "react";
 import "./styles.css";
-import Logo from "../../assets/logo.png";
 import { useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Home = () => {
-  const params = useParams();
+  const navigate = useNavigate();
   const location = useLocation();
   const redirect = location.search.split("=");
-  // useEffect(() => {
-  //   if (redirect[1] !== null) {
-  //     localStorage.setItem("token",  redirect[1]);
-  //   }
-  // }, [redirect]);
+  console.log(
+    !redirect?.[1],
+    "redirect",
+    redirect[1] !== null || redirect[1] !== "undefined"
+  );
+  useEffect(() => {
+    if (redirect?.[1]) {
+      axios({
+        url: "http://localhost:4000/api/user/admin",
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${redirect[1]}`,
+        },
+      })
+        .then((res) => {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              role: res?.data?.user?.role,
+              username: res?.data?.user?.username,
+              token: redirect[1],
+            })
+          );
+          navigate("/user");
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
+    }
+  }, [redirect]);
   const twitterHandler = () => {
     window.location.href = "http://localhost:4000/api/user/twitter/login";
   };

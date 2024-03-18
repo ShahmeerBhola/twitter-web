@@ -1,14 +1,14 @@
-// import { useSelector } from 'react-redux'
 import { Navigate } from "react-router-dom";
-// import { RootState } from '~/store'
 
 const PublicRoute = ({ Component, ...rest }) => {
-  //   const authState = useSelector((state: RootState) => state.auth)
-  const authState = null;
+  const user = JSON.parse(localStorage.getItem("user")) || null;
 
-  // if (authState?.role) {
-  //   return <Navigate to={`/admin`} replace />;
-  // }
+  if (user?.token && user?.role === "ADMIN") {
+    return <Navigate to={`/admin`} replace />;
+  }
+  if (user?.token && user?.role === "USER") {
+    return <Navigate to={`/user`} replace />;
+  }
 
   return <Component {...rest} />;
 };

@@ -1,7 +1,6 @@
 import { Form } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  MessageContainer,
   LoginForm,
   SubmitButton,
   Title,
@@ -25,7 +24,7 @@ const Login = () => {
   const handleSubmit = (values) => {
     if (values.email !== "" && values.password !== "") {
       axios({
-        url: "http://localhost:4000/api/users/login",
+        url: "http://localhost:4000/api/user/admin/login",
         method: "POST",
         headers: {},
         data: values,
@@ -33,12 +32,10 @@ const Login = () => {
         .then((res) => {
           form.resetFields();
           toast.success("Login Successfully!");
-          //   dispatch(
-          //     setUser({
-          //       token: res.data.token,
-          //       user: res.data,
-          //     })
-          //   );
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ role: res?.data?.user?.role, token: res?.data?.token })
+          );
           navigate("/admin");
         })
         .catch((err) => {
@@ -57,14 +54,6 @@ const Login = () => {
     <Wrapper>
       <Title level={1}>Log In</Title>
       <LoginForm layout="vertical" form={form} onFinish={handleSubmit}>
-        {error && (
-          <MessageContainer>
-            <Toast
-              type="error"
-              message="The info entered doesn't match our records. Please try again or select Forget Username or Password."
-            />
-          </MessageContainer>
-        )}
         <TextField
           required
           message=" Email is Required!"
