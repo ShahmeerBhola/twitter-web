@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { Button, TextField } from "../../components";
 import { TableWrapper, TextWrapper, Wrapper } from "./styles";
-import { Table } from "antd";
+import { Table, Row, Col } from "antd";
 import { useMemo } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { SettingOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   {
     title: "Pic",
     dataIndex: "imageUrl",
     key: "imageUrl",
-    render:(imageUrl)=><img src={imageUrl} alt="pic"/>
+    render: (imageUrl) => <img src={imageUrl} alt="pic" />,
   },
   {
     title: "Username",
@@ -32,9 +34,10 @@ const columns = [
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const [keyword, setKeyword] = useState("");
-  const [data,setData]=useState([])
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios({
@@ -63,7 +66,6 @@ const Dashboard = () => {
     });
   }, []);
 
-
   const addKeyword = () => {
     if (keyword !== "") {
       axios({
@@ -84,13 +86,20 @@ const Dashboard = () => {
     }
   };
 
-  const logoutHandler=()=>{
-    localStorage.removeItem("user")
-    window.location.reload()
-  }
+  const logoutHandler = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
   return (
     <Wrapper>
-      <span onClick={logoutHandler}>Logout</span>
+      <Row justify={"end"}>
+        <Col>
+          <span style={{ marginRight: "10px" }}>
+            <SettingOutlined onClick={() => navigate("setting")} />
+          </span>
+          <span onClick={logoutHandler}>Logout</span>
+        </Col>
+      </Row>
       <h2>Dashboard</h2>
       <TextWrapper>
         <TextField

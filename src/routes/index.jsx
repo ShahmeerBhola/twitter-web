@@ -1,6 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import { RootLayout } from "../layout";
-import { Dashboard, Home, Login, UserDashboard } from "../pages";
+import { Dashboard, Home, Login, Setting, UserDashboard } from "../pages";
 import PrivateRoute from "./private-route";
 import ProtectedRoute from "./protected-route";
 import PublicRoute from "./public-route";
@@ -28,6 +28,10 @@ export default function Routes() {
         {
           index: true,
           element: <Dashboard />,
+        },
+        {
+          path: "setting",
+          element: <Setting />,
         },
       ],
     },
