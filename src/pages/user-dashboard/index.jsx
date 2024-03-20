@@ -31,7 +31,7 @@ const UserDashboard = () => {
   console.log(data, "user", keyword);
   useEffect(() => {
     axios({
-      url: "http://localhost:4000/api/keyword",
+      url: `${import.meta.env.VITE_API_URL}/keyword`,
       method: "GET",
       headers: {
         authorization: `Bearer ${user?.token}`,
@@ -43,7 +43,7 @@ const UserDashboard = () => {
 
   useEffect(() => {
     axios({
-      url: "http://localhost:4000/api/user/admin",
+      url: `${import.meta.env.VITE_API_URL}/user/admin`,
       method: "GET",
       headers: {
         authorization: `Bearer ${user?.token}`,

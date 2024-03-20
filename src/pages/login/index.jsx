@@ -24,7 +24,7 @@ const Login = () => {
   const handleSubmit = (values) => {
     if (values.email !== "" && values.password !== "") {
       axios({
-        url: "http://localhost:4000/api/user/admin/login",
+        url: `${import.meta.env.VITE_API_URL}/user/admin/login`,
         method: "POST",
         headers: {},
         data: values,

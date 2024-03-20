@@ -41,7 +41,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios({
-      url: "http://localhost:4000/api/user/admin/all",
+      url: `${import.meta.env.VITE_API_URL}/user/admin/all`,
       method: "GET",
       headers: {
         authorization: `Bearer ${user?.token}`,
@@ -56,7 +56,7 @@ const Dashboard = () => {
   }, []);
   useEffect(() => {
     axios({
-      url: "http://localhost:4000/api/keyword",
+      url: `${import.meta.env.VITE_API_URL}/keyword`,
       method: "GET",
       headers: {
         authorization: `Bearer ${user?.token}`,
@@ -69,7 +69,7 @@ const Dashboard = () => {
   const addKeyword = () => {
     if (keyword !== "") {
       axios({
-        url: "http://localhost:4000/api/keyword",
+        url: `${import.meta.env.VITE_API_URL}/keyword`,
         method: "POST",
         headers: {
           authorization: `Bearer ${user?.token}`,

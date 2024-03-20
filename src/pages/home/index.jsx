@@ -17,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     if (redirect?.[1]) {
       axios({
-        url: "http://localhost:4000/api/user/admin",
+        url: `${import.meta.env.VITE_API_URL}/user/admin`,
         method: "GET",
         headers: {
           authorization: `Bearer ${redirect[1]}`,
@@ -40,7 +40,7 @@ const Home = () => {
     }
   }, [redirect]);
   const twitterHandler = () => {
-    window.location.href = "http://localhost:4000/api/user/twitter/login";
+    window.location.href = `${import.meta.env.VITE_API_URL}/user/twitter/login`;
   };
   return (
     <div className="wrapper">
