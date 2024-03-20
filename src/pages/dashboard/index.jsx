@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, TextField } from "../../components";
+import { Button, CustomTextArea } from "../../components";
 import { TableWrapper, TextWrapper, Wrapper } from "./styles";
 import { Table, Row, Col } from "antd";
 import { useMemo } from "react";
@@ -102,11 +102,15 @@ const Dashboard = () => {
       </Row>
       <h2>Dashboard</h2>
       <TextWrapper>
-        <TextField
+        <CustomTextArea
           placeholder="Enter a keyword"
           label={"keyword"}
           value={keyword}
-          onChange={(event) => setKeyword(event.target.value)}
+          minRow={2}
+          onChange={(event) => {
+            setKeyword(event.target.value);
+            console.log("event.target.value", event.target.value);
+          }}
         />
         <Button type="primary" onClick={addKeyword}>
           Submit

@@ -1,3 +1,4 @@
 import TextField from "./input/text-field";
 import Button from "./button";
-export { TextField, Button };
+import CustomTextArea from "./input/custom-textarea";
+export { TextField, Button, CustomTextArea };
