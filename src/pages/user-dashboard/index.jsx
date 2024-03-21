@@ -28,6 +28,7 @@ const UserDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const [keyword, setKeyword] = useState("");
   const [data, setData] = useState("");
+  const [users, setUsers] = useState([]);
   console.log(data, "user", keyword);
   useEffect(() => {
     axios({
@@ -39,6 +40,22 @@ const UserDashboard = () => {
     }).then((res) => {
       setKeyword(res?.data.keyword);
     });
+  }, []);
+
+  useEffect(() => {
+    axios({
+      url: "http://localhost:4000/api/user/admin/all",
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${user?.token}`,
+      },
+    })
+      .then((res) => {
+        setUsers(res?.data?.user);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
   }, []);
 
   useEffect(() => {
@@ -76,10 +93,6 @@ const UserDashboard = () => {
           <Subtitle>
             Earn ELO by engaging with us on X/Twitter to convert to $sem
           </Subtitle>
-          <TextWrapper>
-            <h4>Current Keyword :</h4>
-            <p>{keyword}</p>
-          </TextWrapper>
           <Post>
             <HeadingPost>Power Post</HeadingPost>
             <PostTweet>
@@ -90,17 +103,8 @@ const UserDashboard = () => {
                   flexDirection: "column",
                 }}
               >
-                <div style={{ borderRadius: "8px", background: "blue" }}>
-                  <span>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Aspernatur, in.
-                  </span>
-                </div>
-                <div style={{ borderRadius: "8px", background: "blue" }}>
-                  <span>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Aspernatur, in.
-                  </span>
+                <div style={{ borderRadius: "8px", background: "blue", minHeight:'40px' }}>
+                  <span>{keyword}</span>
                 </div>
               </div>
             </PostTweet>
@@ -117,7 +121,9 @@ const UserDashboard = () => {
                   </p>
                 </Col>
                 <RightCol>
-                  0(0 ELO)<span>/5</span>
+                  {data?.poweredTweetCount && data?.poweredTweetCount}(
+                  {data?.poweredTweetCount && data?.poweredTweetCount * 20} ELO)
+                  <span>/5</span>
                 </RightCol>
               </Row>
               <Row justify={"space-between"}>
@@ -127,7 +133,9 @@ const UserDashboard = () => {
                   </p>
                 </Col>
                 <RightCol>
-                  0(0 ELO)<span>/5</span>
+                  {data?.poweredQoTweetCount && data?.poweredQoTweetCount}(
+                  {data?.poweredQoTweetCount && data?.poweredQoTweetCount * 60}{" "}
+                  ELO)<span>/5</span>
                 </RightCol>
               </Row>
               <Row justify={"space-between"}>
@@ -138,7 +146,9 @@ const UserDashboard = () => {
                   </p>
                 </Col>
                 <RightCol>
-                  0(0 ELO)<span>/5</span>
+                  {data?.poweredReTweetCount && data?.poweredReTweetCount}(
+                  {data?.poweredReTweetCount && data?.poweredReTweetCount * 50}
+                  ELO)<span>/5</span>
                 </RightCol>
               </Row>
               <Row justify={"space-between"}>
@@ -149,7 +159,9 @@ const UserDashboard = () => {
                   </p>
                 </Col>
                 <RightCol>
-                  0(0 ELO)<span>/5</span>
+                  {data?.poweredReplyCount && data?.poweredReplyCount}(
+                  {data?.poweredReplyCount && data?.poweredReplyCount * 40}
+                  ELO)<span>/5</span>
                 </RightCol>
               </Row>
             </PostEngagementContent>
@@ -160,43 +172,51 @@ const UserDashboard = () => {
                 <Col>
                   <p>
                     <HeartFilled style={{ paddingRight: "10px" }} />
-                    LIKES (20 ELO)
+                    LIKES (10 ELO)
                   </p>
                 </Col>
                 <RightCol>
-                  0(0 ELO)<span>/5</span>
+                  {data?.keywordTweetCount && data?.keywordTweetCount}(
+                  {data?.keywordTweetCount && data?.keywordTweetCount * 10}
+                  ELO)<span>/5</span>
                 </RightCol>
               </Row>
               <Row justify={"space-between"}>
                 <Col>
                   <p>
-                    <i class="icon fa-solid fa-quote-right"></i>QUOTE (60 ELO)
+                    <i class="icon fa-solid fa-quote-right"></i>QUOTE (30 ELO)
                   </p>
                 </Col>
                 <RightCol>
-                  0(0 ELO)<span>/5</span>
+                  {data?.keywordQoTweetCount && data?.keywordQoTweetCount}(
+                  {data?.keywordQoTweetCount && data?.keywordQoTweetCount * 30}
+                  ELO)<span>/5</span>
                 </RightCol>
               </Row>
               <Row justify={"space-between"}>
                 <Col>
                   <p>
                     <SyncOutlined style={{ paddingRight: "10px" }} />
-                    REPOST (50 ELO)
+                    REPOST (25 ELO)
                   </p>
                 </Col>
                 <RightCol>
-                  0(0 ELO)<span>/5</span>
+                  {data?.keywordReTweetCount && data?.keywordReTweetCount}(
+                  {data?.keywordReTweetCount && data?.keywordReTweetCount * 25}
+                  ELO)<span>/5</span>
                 </RightCol>
               </Row>
               <Row justify={"space-between"}>
                 <Col>
                   <p>
                     <i class="icon fa-solid fa-reply"></i>
-                    REPLIES (40 ELO)
+                    REPLIES (20 ELO)
                   </p>
                 </Col>
                 <RightCol>
-                  0(0 ELO)<span>/5</span>
+                  {data?.keywordReplyCount && data?.keywordReplyCount}(
+                  {data?.keywordReplyCount && data?.keywordReplyCount * 20}
+                  ELO)<span>/5</span>
                 </RightCol>
               </Row>
             </PostEngagementContent>
@@ -206,49 +226,23 @@ const UserDashboard = () => {
           <TopBoard>
             <h3>LEADERBOARD (TOP500)</h3>
             <h5>*ELO updated every few days</h5>
-            <Row justify={"space-between"} align={"middle"}>
-              <TopBoardCol flexDirection="row">
-                <span>1</span>
-                <img
-                  src={
-                    "https://pbs.twimg.com/profile_images/1767751585885462528/X9B-4KZL_normal.jpg"
-                  }
-                />
-                <span>name</span>
-              </TopBoardCol>
-              <RightCol>
-                <p>3.11 ELo</p>
-              </RightCol>
-            </Row>
-            {/* hello */}
-            <Row justify={"space-between"} align={"middle"}>
-              <TopBoardCol flexDirection="row">
-                <span>1</span>
-                <img
-                  src={
-                    "https://pbs.twimg.com/profile_images/1767751585885462528/X9B-4KZL_normal.jpg"
-                  }
-                />
-                <span>name</span>
-              </TopBoardCol>
-              <RightCol>
-                <p>3.11 ELo</p>
-              </RightCol>
-            </Row>
-            <Row justify={"space-between"} align={"middle"}>
-              <TopBoardCol flexDirection="row">
-                <span>1</span>
-                <img
-                  src={
-                    "https://pbs.twimg.com/profile_images/1767751585885462528/X9B-4KZL_normal.jpg"
-                  }
-                />
-                <span>name</span>
-              </TopBoardCol>
-              <RightCol>
-                <p>3.11 ELo</p>
-              </RightCol>
-            </Row>
+            {users?.length > 0 &&
+              users?.map((item, index) => (
+                <Row
+                  key={item?._id + index}
+                  justify={"space-between"}
+                  align={"middle"}
+                >
+                  <TopBoardCol flexDirection="row">
+                    <span>{index + 1}</span>
+                    <img src={item?.imageUrl} />
+                    <span>{item?.username}</span>
+                  </TopBoardCol>
+                  <RightCol>
+                    <p>{item?.total} ELO</p>
+                  </RightCol>
+                </Row>
+              ))}
           </TopBoard>
         </LeaderBoard>
       </Container>
