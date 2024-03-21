@@ -22,14 +22,9 @@ const columns = [
     key: "username",
   },
   {
-    title: "Tweet Count",
-    dataIndex: "tweetsCount",
-    key: "tweetsCount",
-  },
-  {
-    title: "Replied Count",
-    dataIndex: "replyCount",
-    key: "replyCount",
+    title: "Total ELO",
+    dataIndex: "total",
+    key: "total",
   },
 ];
 
