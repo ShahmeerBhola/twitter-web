@@ -20,6 +20,11 @@ import {
   RightCol,
   TopBoard,
   TopBoardCol,
+  TotalELO,
+  PostContainer,
+  PostDetail,
+  PostView,
+  SolanaWalletContainer,
 } from "./styles";
 import { Col, Row } from "antd";
 import { HeartFilled, SyncOutlined } from "@ant-design/icons";
@@ -78,40 +83,82 @@ const UserDashboard = () => {
     localStorage.removeItem("user");
     window.location.reload();
   };
-
   return (
     <Wrapper>
       <ProfileWrapper>
         <img src={data?.imageUrl} />
-        <h3>{data?.username}</h3>
+        <h3>123shahmer{data?.username}</h3>
         <span onClick={logoutHandler}>Logout</span>
       </ProfileWrapper>
       <Container>
         {/* <Refer></Refer> */}
         <RankedTweet>
-          <Heading>RANKED by sheldon</Heading>
-          <Subtitle>
-            Earn ELO by engaging with us on X/Twitter to convert to $sem
-          </Subtitle>
-          <Post>
-            <HeadingPost>Power Post</HeadingPost>
-            <PostTweet>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  flexDirection: "column",
-                }}
-              >
-                <div style={{ borderRadius: "8px", background: "blue", minHeight:'40px' }}>
-                  <span>{keyword}</span>
-                </div>
-              </div>
-            </PostTweet>
-          </Post>
+          <Heading>SHILL-TO-EARN</Heading>
+          <Subtitle>Post on Twitter with $SEM or @SemAtlman and earn!</Subtitle>
+          <TweetCount>
+            <h4>Word For Tweet :</h4>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum
+              corporis perferendis commodi nostrum magni? Adipisci aliquam ex
+              reiciendis saepe dolor! Cumque sequi delectus ut repudiandae.
+            </p>
+          </TweetCount>
+          <TotalELO>
+            <h1>
+              {data?.poweredTweetCount &&
+                data?.poweredTweetCount * 5 +
+                  2 +
+                  data?.poweredReplyCount * 10 +
+                  data?.poweredReTweetCount * 15 +
+                  data?.poweredQoTweetCount * 15}
+            </h1>
+            <h4>TOTAL ELO</h4>
+          </TotalELO>
+          <PostContainer>
+            <PostDetail>
+              <PostView>{data?.poweredTweetCount && 2 * 1}</PostView>
+              <h2>VIEWS</h2>
+              <span>1 View = 1 Elo</span>
+            </PostDetail>
+            <PostDetail>
+              <PostView>
+                {data?.poweredTweetCount && data?.poweredTweetCount * 5}
+              </PostView>
+              <h2>LIKES</h2>
+              <span>1 Like = 5 Elo</span>
+            </PostDetail>
+            <PostDetail>
+              <PostView>
+                {data?.poweredReplyCount && data?.poweredReplyCount * 10}
+              </PostView>
+              <h2>REPLIES</h2>
+              <span>1 Reply = 10 Elo</span>
+            </PostDetail>
+            <PostDetail>
+              <PostView>
+                {data?.poweredReTweetCount && data?.poweredReTweetCount * 15}
+              </PostView>
+              <h2>RETWEETS</h2>
+              <span>1 Retweet = 15 Elo</span>
+            </PostDetail>
+            <PostDetail>
+              <PostView>
+                {data?.poweredQoTweetCount && data?.poweredQoTweetCount * 15}
+              </PostView>
+              <h2>QUOTES</h2>
+              <span>1 Quote Tweet = 15 Elo</span>
+            </PostDetail>
+          </PostContainer>
+          <SolanaWalletContainer>
+            <h2>SOLANA WALLET ID</h2>
+            <div>
+              <input type="text" />
+              <div className="btn">Save</div>
+            </div>
+          </SolanaWalletContainer>
+          {/* power post */}
+          {/* <PostEngagementContent>
           <PostEngagement>
-            {/* power post */}
-            <PostEngagementContent>
               <h5>Gamini Power Post Engagement</h5>
               <Row justify={"space-between"}>
                 <Col>
@@ -164,9 +211,9 @@ const UserDashboard = () => {
                   ELO)<span>/5</span>
                 </RightCol>
               </Row>
-            </PostEngagementContent>
-            {/* user post */}
-            <PostEngagementContent>
+            </PostEngagementContent> */}
+          {/* user post */}
+          {/* <PostEngagementContent>
               <h5>Your posts/tweets engagement ELO tagging @gaminio</h5>
               <Row justify={"space-between"}>
                 <Col>
@@ -218,14 +265,13 @@ const UserDashboard = () => {
                   {data?.keywordReplyCount && data?.keywordReplyCount * 20}
                   ELO)<span>/5</span>
                 </RightCol>
+                </PostEngagement>
               </Row>
-            </PostEngagementContent>
-          </PostEngagement>
+            </PostEngagementContent> */}
         </RankedTweet>
         <LeaderBoard>
+          <h2>LEADERBOARD</h2>
           <TopBoard>
-            <h3>LEADERBOARD (TOP500)</h3>
-            <h5>*ELO updated every few days</h5>
             {users?.length > 0 &&
               users?.map((item, index) => (
                 <Row

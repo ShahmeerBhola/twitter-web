@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import JPT from "../../assets/jpt.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -45,34 +46,45 @@ const Home = () => {
   return (
     <div className="wrapper">
       <div className="container">
+        <img className="jpt_img_left" src={JPT} />
+        <img className="jpt_img_right" src={JPT} />
         <div className="login_wrapper">
-          <h1 className="heading">$sem rewards with</h1>
           {/* <img className="logo" src={Logo} /> */}
-          <h2 className="logo_heading">Shill to earn</h2>
+          <h2 className="logo_heading">SHILL-TO-EARN</h2>
+          <span className="logo_intro">
+            Post on Twitter with $SEM or @SemAtlman and earn!
+          </span>
           <div className="login_btn" onClick={twitterHandler}>
-            <i class="icon fa fa-twitter"></i>
             <span>Connect Twitter</span>
           </div>
           <p className="condition">
-            By connecting your twitter you agree to our Terms of Use and Privacy
+            By connecting your twitter you agree to the Terms of Use and Privacy
             Policy
           </p>
         </div>
+      </div>
+      <div className="footer_container">
         <div className="home_footer">
           <div className="footer_content">
-            <h3>01</h3>
-            <h5>Sign Up</h5>
-            <span>Simply connect your Twitter to get playing</span>
+            <h3>1</h3>
+            <div className="footer_content_right">
+              <h5>Sign Up</h5>
+              <span>SIMPLY CONNECT YOUR TWITTER.</span>
+            </div>
           </div>
           <div className="footer_content">
-            <h3>02</h3>
-            <h5>Create & Earn</h5>
-            <span>Earn ELO from your Twitter content</span>
+            <h3>2</h3>
+            <div className="footer_content_right">
+              <h5>post</h5>
+              <span>EARN ELO FROM TWITTER POSTS.</span>
+            </div>
           </div>
           <div className="footer_content">
-            <h3>03</h3>
-            <h5>Claim $sem Reward</h5>
-            <span>Your ELO converts to reward you $sem</span>
+            <h3>3</h3>
+            <div className="footer_content_right">
+              <h5>EARN</h5>
+              <span>AND AUTOMATICALLY RECEIVE $SEM EVERY SINGLE WEEK!</span>
+            </div>
           </div>
         </div>
       </div>

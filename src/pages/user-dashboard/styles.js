@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { Col } from "antd";
 
 export const Wrapper = styled.div`
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   width: 100%;
   margin: 0 auto;
   padding: 20px 50px;
@@ -11,8 +12,8 @@ export const Wrapper = styled.div`
   flex-direction: column;
   background: #030208;
   color: #fff;
-  @media (max-width: 900px) {
-    height: 100%;
+  @media (max-width: 800px) {
+    padding: 20px;
   }
   @media (max-width: 450px) {
     padding: 20px;
@@ -28,6 +29,11 @@ export const ProfileWrapper = styled.div`
   img {
     border-radius: 40px;
   }
+  h3 {
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
   span {
     text-align: end;
     cursor: pointer;
@@ -36,11 +42,13 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const Container = styled.div`
+  flex: 1;
   display: flex;
   justify-content: space-between;
   gap: 30px;
   @media (max-width: 900px) {
     flex-direction: column;
+    gap: 0px;
   }
 `;
 
@@ -49,8 +57,7 @@ export const Refer = styled.div`
 `;
 
 export const RankedTweet = styled.div`
-  width: 50%;
-  text-align: center;
+  width: 65%;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -68,18 +75,32 @@ export const RankedTweet = styled.div`
 
 export const LeaderBoard = styled.div`
   width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  h2 {
+    letter-spacing: 5px;
+    text-align: center;
+  }
   @media (max-width: 1050px) {
     width: 40%;
   }
   @media (max-width: 900px) {
     width: 100%;
   }
+  @media (max-width: 450px) {
+    h2 {
+      font-size: 16px;
+    }
+  }
 `;
 
 export const Heading = styled.h1`
   color: #fff;
   line-height: 1.2;
-  font-weight: 300;
+  font-weight: bold;
+  letter-spacing: 10px;
   @media (max-width: 450px) {
     font-size: 19px;
   }
@@ -89,6 +110,7 @@ export const Subtitle = styled.span`
   font-size: 12px;
   color: whitesmoke;
   opacity: 0.7;
+  letter-spacing: 2px;
 `;
 
 export const Post = styled.div`
@@ -147,9 +169,13 @@ export const PostEngagementContent = styled.div`
   }
 `;
 export const RightCol = styled(Col)`
-  color: pink;
+  color: #fff;
+  letter-spacing: 3px;
+  font-weight: 300;
   span {
     color: whitesmoke;
+    letter-spacing: 3px;
+    font-weight: 300;
   }
 `;
 export const TextWrapper = styled.div`
@@ -167,13 +193,15 @@ export const TextWrapper = styled.div`
 `;
 
 export const TopBoard = styled.div`
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  padding: 20px 30px;
+  padding: 25px 15px;
   border-radius: 20px;
-  background: purple;
+  background: #1e1e1e;
+  border: 2px solid #25d366;
   h3 {
     font-weight: 300;
   }
@@ -190,9 +218,163 @@ export const TopBoardCol = styled(Col)`
     width: 30px;
     border-radius: 20px;
   }
+  span {
+    letter-spacing: 3px;
+    font-weight: 300;
+  }
 `;
 export const TweetCount = styled.div`
   display: flex;
   flex-direction: row;
   gap: 30px;
+  h4 {
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  p {
+    font-size: 13px;
+    white-spacing: wrap;
+    letter-spacing: 1px;
+  }
+  @media (max-width: 450px) {
+    gap: 10px;
+    flex-direction: column;
+  }
+`;
+
+export const TotalELO = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+  h1 {
+    font-size: 55px;
+    font-weight: bold;
+    letter-spacing: 8px;
+  }
+  h4 {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 8px;
+  }
+  @media (max-width: 900px) {
+    h1 {
+      font-size: 40px;
+    }
+    h4 {
+      font-size: 20px;
+    }
+  }
+  @media (max-width: 450px) {
+    h1 {
+      font-size: 28px;
+    }
+    h4 {
+      font-size: 16px;
+    }
+  }
+`;
+
+export const PostContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+export const PostDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 17%;
+  h2 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    letter-spacing: 3px;
+  }
+  span {
+    font-size: 10px;
+    font-weight: 400;
+    font-style: italic;
+    color: #fff;
+  }
+  @media (max-width: 1100px) {
+    width: 23%;
+  }
+  @media (max-width: 900px) {
+    width: 21%;
+  }
+  @media (max-width: 600px) {
+    width: 45%;
+  }
+`;
+
+export const PostView = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 2px solid #25d366;
+  background: #31E1E1E;
+  width: 100%;
+  padding: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+`;
+
+export const SolanaWalletContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 50px 0;
+  h2 {
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  div {
+    display: flex;
+    gap: 10px;
+    input {
+      width: 60%;
+      border: 2px solid #25d366;
+      border-radius: 20px;
+      outline: none;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 10px;
+      text-indent: 10px;
+      letter-spacing: 1px;
+    }
+    .btn {
+      background: #25d366;
+      color: #000;
+      letter-spacing: 2px;
+      font-weight: 700;
+      padding: 10px 30px;
+      border-radius: 10px;
+      text-transform: uppercase;
+    }
+    @media (max-width: 450px) {
+      flex-direction: column;
+      input{
+        width: 100%;
+      }
+      .btn{
+        width: 100px;
+        text-align: center;
+      }
+    }
+  }
 `;
