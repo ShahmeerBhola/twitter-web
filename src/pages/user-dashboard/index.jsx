@@ -31,6 +31,8 @@ import { HeartFilled, SyncOutlined } from "@ant-design/icons";
 
 const UserDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
+  const salona = JSON.parse(localStorage.getItem("salona")) || null;
+  const [wallet, setWallet] = useState(salona);
   const [keyword, setKeyword] = useState("");
   const [data, setData] = useState("");
   const [users, setUsers] = useState([]);
@@ -82,6 +84,20 @@ const UserDashboard = () => {
   const logoutHandler = () => {
     localStorage.removeItem("user");
     window.location.reload();
+  };
+  const addWallet = () => {
+    if (wallet !== "") {
+      localStorage.setItem("salona", JSON.stringify(wallet));
+      if (salona == null) {
+        toast.success("Wallet Id Added Successful!");
+      } else {
+        toast.success("Wallet Id Updated Successful!");
+      }
+    }
+    else{
+      toast.error("Kindly add Wallet ID!.");
+
+    }
   };
   return (
     <Wrapper>
@@ -152,8 +168,14 @@ const UserDashboard = () => {
           <SolanaWalletContainer>
             <h2>SOLANA WALLET ID</h2>
             <div>
-              <input type="text" />
-              <div className="btn">Save</div>
+              <input
+                type="text"
+                value={wallet}
+                onChange={(e) => setWallet(e.target.value)}
+              />
+              <div className="btn" onClick={addWallet}>
+                {salona !== null ? "UPDATE" : "SAVE"}
+              </div>
             </div>
           </SolanaWalletContainer>
           {/* power post */}

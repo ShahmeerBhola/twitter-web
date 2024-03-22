@@ -372,7 +372,7 @@ export const SolanaWalletContainer = styled.div`
         width: 100%;
       }
       .btn{
-        width: 100px;
+        width: 130px;
         text-align: center;
       }
     }
