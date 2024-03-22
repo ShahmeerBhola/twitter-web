@@ -103,7 +103,7 @@ const UserDashboard = () => {
     <Wrapper>
       <ProfileWrapper>
         <img src={data?.imageUrl} />
-        <h3>123shahmer{data?.username}</h3>
+        <h3>{data?.username}</h3>
         <span onClick={logoutHandler}>Logout</span>
       </ProfileWrapper>
       <Container>
