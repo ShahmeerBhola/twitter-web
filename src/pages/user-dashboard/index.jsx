@@ -32,22 +32,37 @@ import { HeartFilled, SyncOutlined } from "@ant-design/icons";
 const UserDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const salona = JSON.parse(localStorage.getItem("salona")) || null;
-  const [wallet, setWallet] = useState(salona);
+  const [wallet, setWallet] = useState("");
   const [keyword, setKeyword] = useState("");
   const [data, setData] = useState("");
   const [users, setUsers] = useState([]);
-  console.log(data, "user", keyword);
+  // useEffect(() => {
+  //   axios({
+  //     url: `${import.meta.env.VITE_API_URL}/keyword`,
+  //     method: "GET",
+  //     headers: {
+  //       authorization: `Bearer ${user?.token}`,
+  //     },
+  //   }).then((res) => {
+  //     setKeyword(res?.data.keyword);
+  //   });
+  // }, []);
   useEffect(() => {
-    axios({
-      url: `${import.meta.env.VITE_API_URL}/keyword`,
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${user?.token}`,
-      },
-    }).then((res) => {
-      setKeyword(res?.data.keyword);
-    });
-  }, []);
+    if (salona !== null) {
+      axios({
+        url: `${import.meta.env.VITE_API_URL}/user/admin/addWallet`,
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${user?.token}`,
+        },
+        data: { wallet: salona },
+      }).then((res) => {
+        localStorage.removeItem("salona");
+        setData(res?.data?.user);
+        setWallet(res?.data?.user?.walletAddress);
+      });
+    }
+  }, [salona]);
 
   useEffect(() => {
     axios({
@@ -75,6 +90,7 @@ const UserDashboard = () => {
     })
       .then((res) => {
         setData(res?.data?.user);
+        setWallet(res?.data?.user?.walletAddress);
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
@@ -87,11 +103,32 @@ const UserDashboard = () => {
   };
   const addWallet = () => {
     if (wallet !== "") {
-      localStorage.setItem("salona", JSON.stringify(wallet));
-      if (salona == null) {
-        toast.success("Wallet Id Added Successful!");
+      if (data?.walletAddress === "") {
+        axios({
+          url: `${import.meta.env.VITE_API_URL}/user/admin/addWallet`,
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${user?.token}`,
+          },
+          data: { wallet: wallet },
+        }).then((res) => {
+          setData(res?.data?.user);
+          setWallet(res?.data?.user?.walletAddress);
+          toast.success("Wallet Id Added Successful!");
+        });
       } else {
-        toast.success("Wallet Id Updated Successful!");
+        axios({
+          url: `${import.meta.env.VITE_API_URL}/user/admin/addWallet`,
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${user?.token}`,
+          },
+          data: { wallet: wallet },
+        }).then((res) => {
+          setData(res?.data?.user);
+          setWallet(res?.data?.user?.walletAddress);
+          toast.success("Wallet Id Updated Successful!")
+        });
       }
     } else {
       toast.error("Kindly add Wallet ID!.");
@@ -109,30 +146,25 @@ const UserDashboard = () => {
         <RankedTweet>
           <Heading>SHILL-TO-EARN</Heading>
           <Subtitle>Post on Twitter with $SEM or @SemAtlman and earn!</Subtitle>
-          <TweetCount>
+          {/* <TweetCount>
             <h4>Word For Tweet :</h4>
             <p>{keyword}</p>
-          </TweetCount>
+          </TweetCount> */}
           <TotalELO>
-            <h1>
-              {data?.poweredTweetCount &&
-                data?.poweredTweetCount * 5 +
-                  2 +
-                  data?.poweredReplyCount * 10 +
-                  data?.poweredReTweetCount * 15 +
-                  data?.poweredQoTweetCount * 15}
-            </h1>
+            <h1>{data?.totalElo && data?.totalElo}</h1>
             <h4>TOTAL ELO</h4>
           </TotalELO>
           <PostContainer>
             <PostDetail>
-              <PostView>{data?.poweredTweetCount && 2 * 1}</PostView>
+              <PostView>
+                {data?.poweredViewCount && data?.poweredViewCount * 1}
+              </PostView>
               <h2>VIEWS</h2>
               <span>1 View = 1 Elo</span>
             </PostDetail>
             <PostDetail>
               <PostView>
-                {data?.poweredTweetCount && data?.poweredTweetCount * 5}
+                {data?.poweredlikedCount && data?.poweredlikedCount * 5}
               </PostView>
               <h2>LIKES</h2>
               <span>1 Like = 5 Elo</span>
@@ -168,7 +200,7 @@ const UserDashboard = () => {
                 onChange={(e) => setWallet(e.target.value)}
               />
               <div className="btn" onClick={addWallet}>
-                {salona !== null ? "UPDATE" : "SAVE"}
+                {data?.walletAddress !== "" ? "UPDATE" : "SAVE"}
               </div>
             </div>
           </SolanaWalletContainer>
@@ -301,7 +333,7 @@ const UserDashboard = () => {
                     <span>{item?.username}</span>
                   </TopBoardCol>
                   <RightCol>
-                    <p>{item?.total} ELO</p>
+                    <p>{item?.totalElo} ELO</p>
                   </RightCol>
                 </Row>
               ))}
