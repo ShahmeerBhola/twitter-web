@@ -93,10 +93,8 @@ const UserDashboard = () => {
       } else {
         toast.success("Wallet Id Updated Successful!");
       }
-    }
-    else{
+    } else {
       toast.error("Kindly add Wallet ID!.");
-
     }
   };
   return (
@@ -113,11 +111,7 @@ const UserDashboard = () => {
           <Subtitle>Post on Twitter with $SEM or @SemAtlman and earn!</Subtitle>
           <TweetCount>
             <h4>Word For Tweet :</h4>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum
-              corporis perferendis commodi nostrum magni? Adipisci aliquam ex
-              reiciendis saepe dolor! Cumque sequi delectus ut repudiandae.
-            </p>
+            <p>{keyword}</p>
           </TweetCount>
           <TotalELO>
             <h1>
