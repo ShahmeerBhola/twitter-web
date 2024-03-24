@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import JPT from "../../assets/jpt.svg";
+import Person from "../../assets/person.svg";
+import Logo from "../../assets/logo.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -41,16 +42,14 @@ const Home = () => {
     }
   }, [redirect]);
   const twitterHandler = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/user/twitter/login`;
+    window.location.href = `https://backend.shilltoearn.com/api/user/twitter/login`;
   };
   return (
     <div className="wrapper">
       <div className="container">
-        <img className="jpt_img_left" src={JPT} />
-        <img className="jpt_img_right" src={JPT} />
         <div className="login_wrapper">
-          {/* <img className="logo" src={Logo} /> */}
-          <h2 className="logo_heading">SHILL-TO-EARN</h2>
+          <img className="logo" src={Person} />
+          <img className="logo_heading" src={Logo} />
           <span className="logo_intro">
             Post on Twitter with $SEM or @SemAtlman and earn!
           </span>
@@ -58,8 +57,8 @@ const Home = () => {
             <span>Connect Twitter</span>
           </div>
           <p className="condition">
-            By connecting your twitter you agree to the Terms of Use and Privacy
-            Policy
+            By connecting your twitter you agree to the{" "}
+            <span>Terms of Use and Privacy Policy</span>
           </p>
         </div>
       </div>
@@ -69,21 +68,21 @@ const Home = () => {
             <h3>1</h3>
             <div className="footer_content_right">
               <h5>Sign Up</h5>
-              <span>SIMPLY CONNECT YOUR TWITTER.</span>
+              <span>Simply connect your Twitter</span>
             </div>
           </div>
           <div className="footer_content">
             <h3>2</h3>
             <div className="footer_content_right">
               <h5>post</h5>
-              <span>EARN ELO FROM TWITTER POSTS.</span>
+              <span>Earn Elo from Twitter posts</span>
             </div>
           </div>
           <div className="footer_content">
             <h3>3</h3>
             <div className="footer_content_right">
               <h5>EARN</h5>
-              <span>AND AUTOMATICALLY RECEIVE $SEM EVERY SINGLE WEEK!</span>
+              <span>And automatically receive $SEM every single week!</span>
             </div>
           </div>
         </div>

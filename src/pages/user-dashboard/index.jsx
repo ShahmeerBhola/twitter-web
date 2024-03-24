@@ -25,44 +25,54 @@ import {
   PostDetail,
   PostView,
   SolanaWalletContainer,
+  ButtonWrapper,
+  Profile,
+  MobProfileWrapper,
+  Sidebar,
 } from "./styles";
-import { Col, Row } from "antd";
-import { HeartFilled, SyncOutlined } from "@ant-design/icons";
+import { Col, Flex, Row } from "antd";
+import View from "../../assets/views.svg";
+import heart from "../../assets/heart.svg";
+import chat from "../../assets/chat.svg";
+import retweet from "../../assets/retweet.svg";
+import edit from "../../assets/edit.svg";
+import close from "../../assets/close.svg";
+import mob_menu from "../../assets/mob_menu.svg";
+import { useWallet } from "@solana/wallet-adapter-react";
+// Import the styles for the wallet adapter components (optional)
 
 const UserDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const salona = JSON.parse(localStorage.getItem("salona")) || null;
-  const [wallet, setWallet] = useState("");
-  const [keyword, setKeyword] = useState("");
   const [data, setData] = useState("");
   const [users, setUsers] = useState([]);
-  // useEffect(() => {
-  //   axios({
-  //     url: `${import.meta.env.VITE_API_URL}/keyword`,
-  //     method: "GET",
-  //     headers: {
-  //       authorization: `Bearer ${user?.token}`,
-  //     },
-  //   }).then((res) => {
-  //     setKeyword(res?.data.keyword);
-  //   });
-  // }, []);
+  const [open, setOpen] = useState(false);
+  const [rank, setRank] = useState("");
+  const { publicKey, select, wallets, disconnect } = useWallet();
+  console.log(publicKey)
+  const performAction = async () => {
+    const wallet = wallets.find((item) => item?.adapter?.name === "Phantom");
+    if (wallet?.readyState === "Installed") {
+      select(wallet.adapter.name);
+    } else {
+      toast.error("Kindly add the Wallet");
+    }
+  };
+
   useEffect(() => {
-    if (salona !== null) {
+    if (publicKey !== null) {
       axios({
         url: `${import.meta.env.VITE_API_URL}/user/admin/addWallet`,
         method: "POST",
         headers: {
           authorization: `Bearer ${user?.token}`,
         },
-        data: { wallet: salona },
+        data: { wallet: publicKey },
       }).then((res) => {
-        localStorage.removeItem("salona");
         setData(res?.data?.user);
-        setWallet(res?.data?.user?.walletAddress);
       });
     }
-  }, [salona]);
+  }, [publicKey]);
 
   useEffect(() => {
     axios({
@@ -82,7 +92,7 @@ const UserDashboard = () => {
 
   useEffect(() => {
     axios({
-      url: `${import.meta.env.VITE_API_URL}/user/admin`,
+      url: `${import.meta.env.VITE_API_URL}/user/admin/userRank`,
       method: "GET",
       headers: {
         authorization: `Bearer ${user?.token}`,
@@ -90,7 +100,7 @@ const UserDashboard = () => {
     })
       .then((res) => {
         setData(res?.data?.user);
-        setWallet(res?.data?.user?.walletAddress);
+        setRank(res?.data?.rank);
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
@@ -101,46 +111,72 @@ const UserDashboard = () => {
     localStorage.removeItem("user");
     window.location.reload();
   };
-  const addWallet = () => {
-    if (wallet !== "") {
-      if (data?.walletAddress === "") {
-        axios({
-          url: `${import.meta.env.VITE_API_URL}/user/admin/addWallet`,
-          method: "POST",
-          headers: {
-            authorization: `Bearer ${user?.token}`,
-          },
-          data: { wallet: wallet },
-        }).then((res) => {
-          setData(res?.data?.user);
-          setWallet(res?.data?.user?.walletAddress);
-          toast.success("Wallet Id Added Successful!");
-        });
-      } else {
-        axios({
-          url: `${import.meta.env.VITE_API_URL}/user/admin/addWallet`,
-          method: "POST",
-          headers: {
-            authorization: `Bearer ${user?.token}`,
-          },
-          data: { wallet: wallet },
-        }).then((res) => {
-          setData(res?.data?.user);
-          setWallet(res?.data?.user?.walletAddress);
-          toast.success("Wallet Id Updated Successful!")
-        });
-      }
-    } else {
-      toast.error("Kindly add Wallet ID!.");
-    }
-  };
   return (
     <Wrapper>
       <ProfileWrapper>
-        <img src={data?.imageUrl} />
-        <h3>{data?.username}</h3>
-        <span onClick={logoutHandler}>Logout</span>
+        <ButtonWrapper
+          className="btn"
+          onClick={
+            !publicKey
+              ? performAction
+              : () => {
+                  disconnect();
+                }
+          }
+        >
+          {publicKey ? (
+            <span>{publicKey.toBase58()}</span>
+          ) : (
+            <span>Connect Wallet</span>
+          )}
+        </ButtonWrapper>
+        <Flex align={"center"} gap="20px">
+          <span onClick={logoutHandler}>Log Out</span>
+          <Profile>
+            <img src={data?.imageUrl} />
+            <h3>@{data?.username}</h3>
+          </Profile>
+        </Flex>
       </ProfileWrapper>
+      <MobProfileWrapper>
+        <Profile>
+          <img src={data?.imageUrl} />
+          <h3>@{data?.username}</h3>
+        </Profile>
+        <img src={mob_menu} onClick={() => setOpen(true)} />
+      </MobProfileWrapper>
+      {open && (
+        <Sidebar>
+          <Flex justify={"space-between"}>
+            <Flex align={"center"} gap="20px">
+              <Profile>
+                <img src={data?.imageUrl} />
+                <h3>@{data?.username}</h3>
+              </Profile>
+              <span onClick={logoutHandler}>Log Out</span>
+            </Flex>
+            <img src={close} onClick={() => setOpen(false)} />
+          </Flex>
+          <Flex vertical gap="10px" style={{ width: "190px", paddingTop: 30 }}>
+            <h3>Wallet</h3>
+            <ButtonWrapper
+              onClick={
+                !publicKey
+                  ? performAction
+                  : () => {
+                      disconnect();
+                    }
+              }
+            >
+              {publicKey ? (
+                <span>{publicKey.toBase58()}</span>
+              ) : (
+                <span>Connect Wallet</span>
+              )}
+            </ButtonWrapper>
+          </Flex>
+        </Sidebar>
+      )}
       <Container>
         {/* <Refer></Refer> */}
         <RankedTweet>
@@ -157,41 +193,61 @@ const UserDashboard = () => {
           <PostContainer>
             <PostDetail>
               <PostView>
-                {data?.poweredViewCount && data?.poweredViewCount * 1}
+                <img src={View} />
+                <div>
+                  {data?.poweredViewCount && data?.poweredViewCount * 1}
+                  <span>1 View = 1 Elo</span>
+                </div>
+                <h2>VIEWS</h2>
               </PostView>
-              <h2>VIEWS</h2>
               <span>1 View = 1 Elo</span>
             </PostDetail>
             <PostDetail>
               <PostView>
-                {data?.poweredlikedCount && data?.poweredlikedCount * 5}
+                <img src={heart} />
+                <div>
+                  {data?.poweredlikedCount && data?.poweredlikedCount * 5}
+                  <span>1 Like = 5 Elo</span>
+                </div>
+                <h2>LIKES</h2>
               </PostView>
-              <h2>LIKES</h2>
               <span>1 Like = 5 Elo</span>
             </PostDetail>
             <PostDetail>
               <PostView>
-                {data?.poweredReplyCount && data?.poweredReplyCount * 10}
+                <img src={chat} />
+                <div>
+                  {data?.poweredReplyCount && data?.poweredReplyCount * 10}
+                  <span>1 Reply = 10 Elo</span>
+                </div>{" "}
+                <h2>REPLIES</h2>
               </PostView>
-              <h2>REPLIES</h2>
               <span>1 Reply = 10 Elo</span>
             </PostDetail>
             <PostDetail>
               <PostView>
-                {data?.poweredReTweetCount && data?.poweredReTweetCount * 15}
+                <img src={retweet} />
+                <div>
+                  {data?.poweredReTweetCount && data?.poweredReTweetCount * 15}
+                  <span>1 Retweet = 15 Elo</span>
+                </div>
+                <h2>RETWEETS</h2>
               </PostView>
-              <h2>RETWEETS</h2>
               <span>1 Retweet = 15 Elo</span>
             </PostDetail>
             <PostDetail>
               <PostView>
-                {data?.poweredQoTweetCount && data?.poweredQoTweetCount * 15}
+                <img src={edit} />
+                <div>
+                  {data?.poweredQoTweetCount && data?.poweredQoTweetCount * 15}
+                  <span>1 Quote Tweet = 15 Elo</span>
+                </div>
+                <h2>QUOTES</h2>
               </PostView>
-              <h2>QUOTES</h2>
               <span>1 Quote Tweet = 15 Elo</span>
             </PostDetail>
           </PostContainer>
-          <SolanaWalletContainer>
+          {/* <SolanaWalletContainer>
             <h2>SOLANA WALLET ID</h2>
             <div>
               <input
@@ -203,7 +259,7 @@ const UserDashboard = () => {
                 {data?.walletAddress !== "" ? "UPDATE" : "SAVE"}
               </div>
             </div>
-          </SolanaWalletContainer>
+          </SolanaWalletContainer> */}
           {/* power post */}
           {/* <PostEngagementContent>
           <PostEngagement>
@@ -318,17 +374,18 @@ const UserDashboard = () => {
             </PostEngagementContent> */}
         </RankedTweet>
         <LeaderBoard>
-          <h2>LEADERBOARD</h2>
           <TopBoard>
+            <h2>Leaderboard</h2>
             {users?.length > 0 &&
               users?.map((item, index) => (
                 <Row
+                  className={`row ${data?._id === item?._id && "active"}`}
                   key={item?._id + index}
                   justify={"space-between"}
                   align={"middle"}
                 >
                   <TopBoardCol flexDirection="row">
-                    <span>{index + 1}</span>
+                    <span className="num">{index + 1}</span>
                     <img src={item?.imageUrl} />
                     <span>{item?.username}</span>
                   </TopBoardCol>
@@ -337,6 +394,28 @@ const UserDashboard = () => {
                   </RightCol>
                 </Row>
               ))}
+            <>
+              {rank > 10 && (
+                <>
+                  <Subtitle>Your Place</Subtitle>
+                  <Row
+                    className="row active"
+                    key={data?._id}
+                    justify={"space-between"}
+                    align={"middle"}
+                  >
+                    <TopBoardCol flexDirection="row">
+                      <span className="num">{rank}</span>
+                      <img src={data?.imageUrl} />
+                      <span>{data?.username}</span>
+                    </TopBoardCol>
+                    <RightCol>
+                      <p>{data?.totalElo} ELO</p>
+                    </RightCol>
+                  </Row>
+                </>
+              )}
+            </>
           </TopBoard>
         </LeaderBoard>
       </Container>
