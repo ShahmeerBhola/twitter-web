@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, CustomTextArea } from "../../components";
 import { TableWrapper, TextWrapper, Wrapper } from "./styles";
-import { Table, Row, Col } from "antd";
+import { Table, Row, Col, Popconfirm } from "antd";
 import { useMemo } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -23,15 +23,14 @@ const columns = [
   },
   {
     title: "Total ELO",
-    dataIndex: "total",
-    key: "total",
+    dataIndex: "toTal",
+    key: "toTal",
   },
 ];
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user")) || null;
-  const [keyword, setKeyword] = useState("");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -49,42 +48,33 @@ const Dashboard = () => {
         toast.error(err?.response?.data?.message);
       });
   }, []);
-  useEffect(() => {
-    axios({
-      url: `${import.meta.env.VITE_API_URL}/keyword`,
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${user?.token}`,
-      },
-    }).then((res) => {
-      setKeyword(res?.data.keyword);
-    });
-  }, []);
-
-  const addKeyword = () => {
-    if (keyword !== "") {
-      axios({
-        url: `${import.meta.env.VITE_API_URL}/keyword`,
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${user?.token}`,
-        },
-        data: {
-          keyword,
-        },
-      }).then((res) => {
-        setKeyword(res?.data.keyword);
-        toast.success("Keyword added Successful!!");
-      });
-    } else {
-      toast.error("Kindly insert the keyword");
-    }
-  };
 
   const logoutHandler = () => {
     localStorage.removeItem("user");
     window.location.reload();
   };
+  const exportData = () => {
+    axios({
+      url: `${import.meta.env.VITE_API_URL}/user/admin/updateValues`,
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${user?.token}`,
+      },
+    })
+      .then((res) => {
+        const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+          JSON.stringify(res?.data?.allUSERS)
+        )}`;
+        const link = document.createElement("a");
+        link.href = jsonString;
+        link.download = "data.json";
+    
+        link.click();
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  };  
   return (
     <Wrapper>
       <Row justify={"end"}>
@@ -96,21 +86,18 @@ const Dashboard = () => {
         </Col>
       </Row>
       <h2>Dashboard</h2>
-      <TextWrapper>
-        <CustomTextArea
-          placeholder="Enter a keyword"
-          label={"keyword"}
-          value={keyword}
-          minRow={2}
-          onChange={(event) => {
-            setKeyword(event.target.value);
-            console.log("event.target.value", event.target.value);
-          }}
-        />
-        <Button type="primary" onClick={addKeyword}>
-          Submit
-        </Button>
-      </TextWrapper>
+      <Popconfirm
+    title="Claim Reward"
+    description="Are you sure to claim reward?"
+    onConfirm={exportData}
+    okText="Yes"
+    cancelText="No"
+  >
+      <Button type="primary" style={{width:"100px"}}>
+        Claim
+      </Button>
+  </Popconfirm>
+
       <TableWrapper>
         {useMemo(
           () => (
