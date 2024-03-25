@@ -68,13 +68,13 @@ const Dashboard = () => {
         const link = document.createElement("a");
         link.href = jsonString;
         link.download = "data.json";
-    
+
         link.click();
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
       });
-  };  
+  };
   return (
     <Wrapper>
       <Row justify={"end"}>
@@ -87,16 +87,16 @@ const Dashboard = () => {
       </Row>
       <h2>Dashboard</h2>
       <Popconfirm
-    title="Claim Reward"
-    description="Are you sure to claim reward?"
-    onConfirm={exportData}
-    okText="Yes"
-    cancelText="No"
-  >
-      <Button type="primary" style={{width:"100px"}}>
-        Claim
-      </Button>
-  </Popconfirm>
+        title="Airdrop"
+        description="Are you sure to Airdrop?"
+        onConfirm={exportData}
+        okText="Yes"
+        cancelText="No"
+      >
+        <Button type="primary" style={{ width: "100px" }}>
+          Airdrop
+        </Button>
+      </Popconfirm>
 
       <TableWrapper>
         {useMemo(
