@@ -319,7 +319,7 @@ export const TotalELO = styled.div`
   height: 300px;
   position: relative;
   h1 {
-    font-size: 55px;
+    font-size: 95px;
     font-weight: bold;
     letter-spacing: 8px;
     color: #25d366;
@@ -330,7 +330,7 @@ export const TotalELO = styled.div`
   div {
     position: absolute;
     height: 60px;
-    top: 75px;
+    top: 76px;
     width: 100%;
     img {
       object-fit: cover;
@@ -351,7 +351,7 @@ export const TotalELO = styled.div`
   }
   @media (max-width: 900px) {
     h1 {
-      font-size: 40px;
+      // font-size: 40px;
     }
     h4 {
       font-size: 20px;
@@ -359,7 +359,7 @@ export const TotalELO = styled.div`
   }
   @media (max-width: 450px) {
     h1 {
-      font-size: 28px;
+      font-size: 52px;
     }
     h4 {
       font-size: 16px;
@@ -551,5 +551,73 @@ export const Profile = styled.div`
   h3 {
     font-size: 12px;
     font-weight: 300;
+  }
+`;
+
+export const ShillEarn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px 0;
+  border-radius: 20px;
+  position: relative;
+  width: 100%;
+  h1 {
+    font-size: 75px;
+    font-weight: bold;
+    letter-spacing: 8px;
+    color: #25d366;
+    text-align: center;
+    width: 100%;
+    font-family: "prophit dot" !important;
+  }
+  div {
+    position: absolute;
+    height: 49px;
+    top: 34px;
+    width: 100%;
+    img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+    @media (max-width: 450px) {
+      height: 30px;
+      top: 17px;
+    }
+  }
+  h4 {
+    font-size: 24px;
+    color: #25d366;
+    font-weight: bold;
+    padding-left: 10px;
+    letter-spacing: 2px;
+  }
+  @media (max-width: 780px) {
+    h1 {
+      font-size: 40px;
+    }
+    div{
+      height: 30px;
+      top: 25px;
+    }
+    h4 {
+      font-size: 20px;
+    }
+  }
+  @media (max-width: 455px) {
+    h1 {
+      font-size: 22px;
+      letter-spacing: 4px;
+    }
+    div{
+      height: 20px;
+      top: 22px;
+    }
+    h4 {
+      font-size: 16px;
+    }
   }
 `;

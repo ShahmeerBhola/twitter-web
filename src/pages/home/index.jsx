@@ -5,7 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Person from "../../assets/person.svg";
-import Logo from "../../assets/logo.svg";
+import dots from "../../assets/dots.svg";
+import { ShillEarn, TotalELO } from "../user-dashboard/styles";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -49,7 +50,12 @@ const Home = () => {
       <div className="container">
         <div className="login_wrapper">
           <img className="logo" src={Person} />
-          <img className="logo_heading" src={Logo} />
+          <ShillEarn>
+            <div>
+              <img src={dots} />
+            </div>
+            <h1>SHILL-TO-EARN</h1>
+          </ShillEarn>
           <span className="logo_intro">
             Post on Twitter with $SEM or @SemAtlman and earn!
           </span>
