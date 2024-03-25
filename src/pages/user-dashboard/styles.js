@@ -325,6 +325,7 @@ export const TotalELO = styled.div`
     color: #25d366;
     text-align: center;
     width: 100%;
+    font-family: "prophit dot" !important;
   }
   div {
     position: absolute;

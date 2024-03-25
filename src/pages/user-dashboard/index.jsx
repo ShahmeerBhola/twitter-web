@@ -40,6 +40,7 @@ import close from "../../assets/close.svg";
 import mob_menu from "../../assets/mob_menu.svg";
 import dots from "../../assets/dots.svg";
 import { useWallet } from "@solana/wallet-adapter-react";
+import '../../font.css';
 // Import the styles for the wallet adapter components (optional)
 
 const UserDashboard = () => {
