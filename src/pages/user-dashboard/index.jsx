@@ -38,6 +38,7 @@ import retweet from "../../assets/retweet.svg";
 import edit from "../../assets/edit.svg";
 import close from "../../assets/close.svg";
 import mob_menu from "../../assets/mob_menu.svg";
+import dots from "../../assets/dots.svg";
 import { useWallet } from "@solana/wallet-adapter-react";
 // Import the styles for the wallet adapter components (optional)
 
@@ -49,7 +50,7 @@ const UserDashboard = () => {
   const [open, setOpen] = useState(false);
   const [rank, setRank] = useState("");
   const { publicKey, select, wallets, disconnect } = useWallet();
-  console.log(publicKey)
+  console.log(publicKey);
   const performAction = async () => {
     const wallet = wallets.find((item) => item?.adapter?.name === "Phantom");
     if (wallet?.readyState === "Installed") {
@@ -187,6 +188,9 @@ const UserDashboard = () => {
             <p>{keyword}</p>
           </TweetCount> */}
           <TotalELO>
+            <div>
+              <img src={dots} />
+            </div>
             <h1>{data?.totalElo && data?.totalElo}</h1>
             <h4>TOTAL ELO</h4>
           </TotalELO>

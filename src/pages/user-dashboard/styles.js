@@ -87,8 +87,8 @@ export const Container = styled.div`
   padding-top: 70px;
   display: flex;
   justify-content: space-between;
-  gap: 30px;
-  @media (max-width: 900px) {
+  gap: 20px;
+  @media (max-width: 1100px) {
     flex-direction: column;
     gap: 0px;
   }
@@ -99,14 +99,11 @@ export const Refer = styled.div`
 `;
 
 export const RankedTweet = styled.div`
-  width: 65%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  @media (max-width: 1050px) {
-    width: 60%;
-  }
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     width: 100%;
   }
   @media (max-width: 450px) {
@@ -124,8 +121,9 @@ export const LeaderBoard = styled.div`
     letter-spacing: 2px;
     text-align: start;
   }
-  @media (max-width: 1050px) {
-    width: 40%;
+  @media (max-width: 1100px) {
+    width: 100%;
+    align-items: center;
   }
   @media (max-width: 900px) {
     width: 100%;
@@ -256,6 +254,9 @@ export const TopBoard = styled.div`
   .active {
     border: 2px solid #25d366;
   }
+  @media (max-width: 1100px) {
+    width: 400px;
+  }
   @media (max-width: 500px) {
     background: none;
     padding: 25px 0px;
@@ -316,10 +317,29 @@ export const TotalELO = styled.div`
   border: 4px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   height: 300px;
+  position: relative;
   h1 {
     font-size: 55px;
     font-weight: bold;
     letter-spacing: 8px;
+    color: #25d366;
+    text-align: center;
+    width: 100%;
+  }
+  div {
+    position: absolute;
+    height: 60px;
+    top: 75px;
+    width: 100%;
+    img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+    @media (max-width: 450px) {
+      height: 30px;
+      top: 17px;
+    }
   }
   h4 {
     font-size: 24px;
@@ -349,13 +369,12 @@ export const TotalELO = styled.div`
 
 export const PostContainer = styled.div`
   display: flex;
-  gap: 20px;
   flex-direction: row;
   width: 100%;
   padding-bottom: 20px;
   flex-wrap: wrap;
   justify-content: center;
-  @media (max-width: 450px) {
+  @media (max-width: 600px) {
     gap: 10px;
     padding-bottom: 20px;
   }
@@ -366,24 +385,22 @@ export const PostDetail = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  width: 17%;
-  min-width: 160px;
+  width: 20%;
+  padding-right: 10px;
+  // min-width: 160px;
   span {
     font-size: 10px;
     font-weight: 400;
     font-style: italic;
     color: #fff;
   }
-  @media (max-width: 1100px) {
-    width: 22%;
-  }
+  // @media (max-width: 1100px) {
+  //   width: 22%;
+  // }
   @media (max-width: 900px) {
     width: 20%;
   }
   @media (max-width: 600px) {
-    width: 45%;
-  }
-  @media (max-width: 450px) {
     width: 100%;
     span {
       display: none;
@@ -424,7 +441,7 @@ export const PostView = styled.div`
       color: #fff;
     }
   }
-  @media (max-width: 450px) {
+  @media (max-width: 600px) {
     flex-direction: row;
     justify-content: start;
     height: 80px;
