@@ -40,12 +40,13 @@ import close from "../../assets/close.svg";
 import mob_menu from "../../assets/mob_menu.svg";
 import dots from "../../assets/dots.svg";
 import { useWallet } from "@solana/wallet-adapter-react";
-import '../../font.css';
+import "../../font.css";
 // Import the styles for the wallet adapter components (optional)
 
 const UserDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const salona = JSON.parse(localStorage.getItem("salona")) || null;
+  const [updated, setUpdated] = useState(false);
   const [data, setData] = useState("");
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
@@ -56,6 +57,7 @@ const UserDashboard = () => {
     const wallet = wallets.find((item) => item?.adapter?.name === "Phantom");
     if (wallet?.readyState === "Installed") {
       select(wallet.adapter.name);
+      setUpdated(true);
     } else {
       toast.error("Kindly add the Wallet");
     }
@@ -72,6 +74,10 @@ const UserDashboard = () => {
         data: { wallet: publicKey },
       }).then((res) => {
         setData(res?.data?.user);
+        if (updated) {
+          toast.success("WalletAddress Added Successfully!");
+          setUpdated(false);
+        }
       });
     }
   }, [publicKey]);
